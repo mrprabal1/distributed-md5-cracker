@@ -6,6 +6,7 @@
 #include <mutex>
 #include <ctime>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <unistd.h>
 #include <cstring>
 #include <algorithm>
@@ -89,7 +90,7 @@ void handle_client(int client_socket, int client_id) {
             std::string password = msg.substr(6);
             found = true;
             found_password = password;
-            std::cout << "\n✅ Password found by client " << client_id << ": " << password << std::endl;
+            std::cout << "\nPassword found by client " << client_id << ": " << password << std::endl;
 
             std::lock_guard<std::mutex> lock(client_mutex);
             for (auto& [id, info] : clients) {
@@ -116,9 +117,14 @@ int main() {
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
     setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
+    // address.sin_family = AF_INET;
+    // address.sin_addr.s_addr = INADDR_ANY;
+    // address.sin_port = htons(PORT);
+
     address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
+    const char* my_IP = "192.168.1.44";
+    address.sin_addr.s_addr = inet_addr(my_IP);
 
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
     listen(server_fd, MAX_CLIENTS);
