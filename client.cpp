@@ -98,7 +98,7 @@ int main() {
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
-    const char* my_IP = "192.168.1.44";
+    const char* my_IP = "192.168.0.171";
     serv_addr.sin_addr.s_addr = inet_addr(my_IP);
 
     if (connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {

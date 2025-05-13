@@ -123,7 +123,7 @@ int main() {
 
     address.sin_family = AF_INET;
     address.sin_port = htons(PORT);
-    const char* my_IP = "192.168.1.44";
+    const char* my_IP = "192.168.0.171";
     address.sin_addr.s_addr = inet_addr(my_IP);
 
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
